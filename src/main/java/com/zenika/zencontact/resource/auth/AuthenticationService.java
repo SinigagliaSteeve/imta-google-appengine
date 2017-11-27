@@ -1,5 +1,6 @@
 package com.zenika.zencontact.resource.auth;
 
+import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
@@ -34,5 +35,9 @@ public class AuthenticationService {
 
     public boolean isAdmin() {
         return userService.isUserAdmin();
+    }
+
+    public User getUser() {
+        return userService.getCurrentUser();
     }
 }
