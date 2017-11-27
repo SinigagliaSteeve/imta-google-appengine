@@ -56,6 +56,7 @@ public class UserResourceWithId extends HttpServlet {
 
         User user = new Gson().fromJson(request.getReader(), User.class);
         UserDaoObjectify.getInstance().save(user);
+        UserResource.cache.delete(UserResource.CONTACTS_CACHE_KEY);
         response.setContentType("application/json; charset=utf-8");
         response.getWriter().println(new Gson().toJson(user));
     }
@@ -68,6 +69,9 @@ public class UserResourceWithId extends HttpServlet {
             response.setStatus(404);
             return;
         }
+        UserResource.cache.delete(UserResource.CONTACTS_CACHE_KEY);
+        // don't forget the blob
+        PhotoService.getInstance().deleteOldBlob(id);
         UserDaoObjectify.getInstance().delete(id);
     }
 }
